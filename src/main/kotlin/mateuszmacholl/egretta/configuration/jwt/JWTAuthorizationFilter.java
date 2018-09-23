@@ -32,7 +32,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
 
-        if(isHeaderIncorrect(req.getHeader(INSTANCE.getHEADER_STRING()))){
+        if(isHeaderIncorrect(req.getHeader(SecurityConstants.HEADER_STRING))){
             chain.doFilter(req, res);
             return;
         }
@@ -44,13 +44,13 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private boolean isHeaderIncorrect(String header){
         if(header != null){
-            return !header.startsWith(INSTANCE.getTOKEN_PREFIX());
+            return !header.startsWith(SecurityConstants.TOKEN_PREFIX);
         }
 	    return true;
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(INSTANCE.getHEADER_STRING());
+        String token = request.getHeader(SecurityConstants.HEADER_STRING);
         if (isTokenValid(token)) {
             Claims claims = parseJwt(token);
             String username = claims.getSubject();
@@ -69,8 +69,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private Claims parseJwt(String token){
         return Jwts.parser()
-                .setSigningKey(INSTANCE.getSECRET())
-                .parseClaimsJws(token.replace(INSTANCE.getTOKEN_PREFIX(), ""))
+                .setSigningKey(SecurityConstants.SECRET)
+                .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
                 .getBody();
     }
 

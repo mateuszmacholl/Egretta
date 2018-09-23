@@ -24,9 +24,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-import static mateuszmacholl.egretta.configuration.jwt.SecurityConstants.*;
-
-
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;
 
@@ -71,15 +68,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	                                        FilterChain chain,
 	                                        Authentication auth) {
 		String token = generateToken(auth);
-		res.addHeader(INSTANCE.getHEADER_STRING(), INSTANCE.getTOKEN_PREFIX() + token);
+		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 	}
 
 	private String generateToken(Authentication auth){
 		return Jwts.builder()
 				.setSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername())
 				.claim("roles", auth.getAuthorities())
-				.setExpiration(new Date(System.currentTimeMillis() + INSTANCE.getEXPIRATION_TIME()))
-				.signWith(SignatureAlgorithm.HS512, INSTANCE.getSECRET())
+				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+				.signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
 				.compact();
 	}
 
