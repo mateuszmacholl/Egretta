@@ -28,7 +28,7 @@ data class User(
     var roles: MutableList<String> = mutableListOf(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "author", targetEntity = Task::class)
+    @OneToMany(mappedBy = "author", targetEntity = Task::class,  cascade = [CascadeType.ALL])
     var tasks: MutableList<Task> = mutableListOf()
 ){
     init {
