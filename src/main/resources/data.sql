@@ -26,8 +26,8 @@ insert into task_type(id, name) values (1001, 'praca domowa');
 insert into task_type(id, name) values (1002, 'praca zawodowa');
 
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1000, '2018-10-01', 'sprawdzian z wesela', 'UNDONE',1000, 1001, 1000);
-insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1001, '2018-10-01', 'sprawdzian z poteg', 'DONE',1000, 1001, 1000);
-insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1002, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
+insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1001, '2019-10-01', 'sprawdzian z poteg', 'DONE',1000, 1001, 1000);
+insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1002, '2019-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1003, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1004, '2018-10-02', 'sprawdzian z chlopow', 'DONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1005, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
@@ -35,7 +35,7 @@ insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1007, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1008, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1009, '2018-10-02', 'sprawdzian z chlopow', 'DONE',1000, 1001, 1000);
-insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1010, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
+insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1010, '2019-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1011, '2018-10-02', 'sprawdzian z oswiecenia', 'DONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1012, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1013, '2018-10-02', 'sprawdzian z chlopow', 'UNDONE',1000, 1001, 1000);
@@ -48,6 +48,6 @@ insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1020, '2018-09-02', 'sprawdzian z pana tadeusza', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1021, '2018-08-01', 'sprawdzian z lalki', 'UNDONE',1000, 1001, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1022, '2018-10-01', 'xd1', 'UNDONE',1000, 1000, 1000);
-insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1023, '2018-10-01', 'xd2', 'UNDONE',1000, 1000, 1000);
+insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1023, '2019-10-01', 'xd2', 'UNDONE',1000, 1000, 1000);
 insert into task(id, date, name, state, type_id, author_id, subject_id) VALUES (1024, '2018-10-01', 'xd3', 'UNDONE',1000, 1000, 1000);
 insert into task(id, date, name, state, content, type_id, author_id, subject_id) VALUES (1025, '2018-10-02', 'praca domowa z jadra ciemnosci', 'DONE','Charakterysytka Kurtza i Marlowa',1001, 1001, 1000);
