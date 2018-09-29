@@ -1,6 +1,5 @@
 package mateuszmacholl.egretta.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import mateuszmacholl.egretta.utils.TaskState
 import org.springframework.format.annotation.DateTimeFormat
 import java.util.*
@@ -10,20 +9,18 @@ import javax.persistence.*
 data class Task(
         @Id @GeneratedValue
         val id: Int? = null,
-        val name: String?,
-        val content: String?,
+        var name: String?,
+        var content: String?,
         @ManyToOne(fetch = FetchType.EAGER)
-        @JsonIgnore
-        val author: User?,
+        var author: User?,
         @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JsonIgnore
-        val subject: Subject? = null,
+        var subject: Subject? = null,
         @DateTimeFormat(pattern = "yyyy/mm/dd")
         @Temporal(TemporalType.DATE)
-        val date: Date? = null,
+        var date: Date? = null,
         @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JsonIgnore
-        val type: TaskType? = null,
         @Enumerated(EnumType.STRING)
-        val state: TaskState = TaskState.UNDONE
+        var type: TaskType? = null,
+        @Enumerated(EnumType.STRING)
+        var state: TaskState = TaskState.UNDONE
 )

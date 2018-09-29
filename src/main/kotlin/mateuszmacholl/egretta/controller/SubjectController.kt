@@ -3,13 +3,9 @@ package mateuszmacholl.egretta.controller
 import mateuszmacholl.egretta.converter.SubjectConverter
 import mateuszmacholl.egretta.dto.CreateSubjectDto
 import mateuszmacholl.egretta.model.specification.SubjectSpec
-import mateuszmacholl.egretta.resource.SubjectResource
-import mateuszmacholl.egretta.resource.TaskResource
 import mateuszmacholl.egretta.service.SubjectService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
-import org.springframework.hateoas.Resources
-import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -17,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Validated
-@RequestMapping(value = ["/subjects"], produces = ["application/hal+json"])
+@RequestMapping(value = ["/subjects"])
 class SubjectController {
     @Autowired
     lateinit var subjectService: SubjectService
@@ -27,11 +23,7 @@ class SubjectController {
     @RequestMapping(value = [""], method = [RequestMethod.GET])
     fun getAll(subjectSpec: SubjectSpec, pageable: Pageable): ResponseEntity<*> {
         val subjects = subjectService.findAll(subjectSpec, pageable)
-        val subjectResources = subjects.map { p -> SubjectResource(p) }.toList()
-
-        val link = ControllerLinkBuilder.linkTo(this::class.java).withSelfRel()
-        val result = Resources<SubjectResource>(subjectResources, link)
-        return ResponseEntity(result, HttpStatus.OK)
+        return ResponseEntity(subjects, HttpStatus.OK)
     }
 
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.GET])
@@ -40,8 +32,7 @@ class SubjectController {
         return if (!subject.isPresent) {
             ResponseEntity("subject not found", HttpStatus.NOT_FOUND)
         } else {
-            val subjectResource = SubjectResource(subject.get())
-            ResponseEntity(subjectResource, HttpStatus.OK)
+            ResponseEntity(subject, HttpStatus.OK)
         }
     }
 
@@ -69,11 +60,7 @@ class SubjectController {
         return if (!subject.isPresent) {
             ResponseEntity("subject not found", HttpStatus.NOT_FOUND)
         } else {
-            val taskResources = subject.get().tasks.map { t -> TaskResource(t) }.toList()
-
-            val link = ControllerLinkBuilder.linkTo(this::class.java).withSelfRel()
-            val result = Resources<TaskResource>(taskResources, link)
-            ResponseEntity(result, HttpStatus.OK)
+            ResponseEntity(subject.get().tasks, HttpStatus.OK)
         }
     }
 

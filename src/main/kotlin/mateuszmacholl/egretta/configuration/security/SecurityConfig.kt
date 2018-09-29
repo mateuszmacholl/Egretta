@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -21,6 +22,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher
 
 @Configuration
 @EnableWebSecurity
+@Profile(value = ["development"])
 class SecurityConfig @Autowired
 constructor(@param:Qualifier("customUserDetailsService") private val userDetailsService: UserDetailsService,
             private val bCryptPasswordEncoder: BCryptPasswordEncoder) : WebSecurityConfigurerAdapter() {
@@ -42,12 +44,10 @@ constructor(@param:Qualifier("customUserDetailsService") private val userDetails
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-        http.csrf().disable().authorizeRequests().antMatchers("/account/**").permitAll()
-                .antMatchers("/users/**").permitAll()
-                .antMatchers( "/subjects/**").permitAll()
-                .antMatchers( "/tasks/**").permitAll()
-                .antMatchers( "/task-types/**").permitAll()
-                .antMatchers( "/**").permitAll() // for tests
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                //.antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(jwtAuthenticationFilter)

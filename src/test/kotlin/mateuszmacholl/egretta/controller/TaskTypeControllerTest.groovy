@@ -1,20 +1,22 @@
 package mateuszmacholl.egretta.controller
 
-import mateuszmacholl.egretta.resource.TaskTypeResource
+import mateuszmacholl.egretta.model.Task
+import mateuszmacholl.egretta.model.TaskType
 import mateuszmacholl.egretta.service.TaskTypeService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.hateoas.Resources
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = AutoConfigureTestDatabase.Replace.ANY)
+@ActiveProfiles(value = ["test"])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TaskTypeControllerTest extends Specification {
     @Autowired
@@ -24,7 +26,7 @@ class TaskTypeControllerTest extends Specification {
 
     def "get all task types"() {
         when:
-        def response = restTemplate.getForEntity('/task-types', Resources.class)
+        def response = restTemplate.getForEntity('/task-types', String.class)
 
         then:
         HttpStatus.OK == response.statusCode
@@ -34,7 +36,7 @@ class TaskTypeControllerTest extends Specification {
         given:
         def id = 1001
         when:
-        def response = restTemplate.getForEntity('/task-types/' + id, TaskTypeResource.class)
+        def response = restTemplate.getForEntity('/task-types/' + id, TaskType.class)
 
         then:
         HttpStatus.OK == response.statusCode
@@ -65,7 +67,7 @@ class TaskTypeControllerTest extends Specification {
         then:
         HttpStatus.CREATED == response.statusCode
 
-        def taskTypes = taskTypeService.findAll() asList()
+        def taskTypes = taskTypeService.findAll() as List<TaskType>
         taskTypes.stream().filter { t ->
             (
                     t.name == name
@@ -77,7 +79,7 @@ class TaskTypeControllerTest extends Specification {
         given:
         def id = 1001
         when:
-        def response = restTemplate.getForEntity('/task-types/' + id + '/tasks', Resources.class)
+        def response = restTemplate.getForEntity('/task-types/' + id + '/tasks', Task[].class)
 
         then:
         HttpStatus.OK == response.statusCode

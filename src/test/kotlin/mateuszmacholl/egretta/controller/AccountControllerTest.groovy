@@ -58,7 +58,7 @@ class AccountControllerTest extends Specification {
                 password: password
         ]
         when:
-        def response = restTemplate.postForEntity('/auth/login', body, String.class)
+        def response = restTemplate.postForEntity('/users/login', body, String.class)
 
         then:
         HttpStatus.OK == response.statusCode

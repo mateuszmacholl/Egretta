@@ -2,13 +2,11 @@ package mateuszmacholl.egretta.controller
 
 import mateuszmacholl.egretta.converter.TaskConverter
 import mateuszmacholl.egretta.dto.CreateTaskDto
+import mateuszmacholl.egretta.dto.UpdateStateTaskDto
 import mateuszmacholl.egretta.model.specification.TaskSpec
-import mateuszmacholl.egretta.resource.TaskResource
 import mateuszmacholl.egretta.service.TaskService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
-import org.springframework.hateoas.Resources
-import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Validated
-@RequestMapping(value = ["/tasks"], produces = ["application/hal+json"])
+@RequestMapping(value = ["/tasks"])
 class TaskController {
     @Autowired
     lateinit var taskService: TaskService
@@ -24,13 +22,9 @@ class TaskController {
     lateinit var taskConverter: TaskConverter
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
-    fun getAll(taskSpec: TaskSpec, pageable: Pageable): ResponseEntity<*> {
+    fun getAll(taskSpec: TaskSpec,  pageable: Pageable): ResponseEntity<*> {
         val tasks = taskService.findAll(taskSpec, pageable)
-        val taskResources = tasks.map { p -> TaskResource(p) }.toList()
-
-        val link = linkTo(this::class.java).withSelfRel()
-        val result = Resources<TaskResource>(taskResources, link)
-        return ResponseEntity(result, HttpStatus.OK)
+        return ResponseEntity(tasks, HttpStatus.OK)
     }
 
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.GET])
@@ -39,8 +33,7 @@ class TaskController {
         return if (!task.isPresent) {
             ResponseEntity("task not found", HttpStatus.NOT_FOUND)
         } else {
-            val taskResource = TaskResource(task.get())
-            ResponseEntity(taskResource, HttpStatus.OK)
+            ResponseEntity(task, HttpStatus.OK)
         }
     }
 
@@ -58,6 +51,19 @@ class TaskController {
             ResponseEntity("task not found", HttpStatus.NOT_FOUND)
         } else {
             taskService.delete(task.get())
+            return ResponseEntity<Any>(HttpStatus.NO_CONTENT)
+        }
+    }
+
+    @RequestMapping(value = ["/{id}/state"], method = [RequestMethod.PUT])
+    fun updateState(@PathVariable(value = "id") id: Int,
+                    @RequestBody @Validated updateStateTaskDto: UpdateStateTaskDto): ResponseEntity<*> {
+        val task = taskService.findById(id)
+        return if (!task.isPresent) {
+            ResponseEntity("task not found", HttpStatus.NOT_FOUND)
+        } else {
+            task.get().state = updateStateTaskDto.state
+            taskService.add(task.get())
             return ResponseEntity<Any>(HttpStatus.NO_CONTENT)
         }
     }

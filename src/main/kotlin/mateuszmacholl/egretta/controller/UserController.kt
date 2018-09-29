@@ -3,13 +3,9 @@ package mateuszmacholl.egretta.controller
 import mateuszmacholl.egretta.converter.UserConverter
 import mateuszmacholl.egretta.dto.CreateUserDto
 import mateuszmacholl.egretta.model.specification.UserSpec
-import mateuszmacholl.egretta.resource.TaskResource
-import mateuszmacholl.egretta.resource.UserResource
 import mateuszmacholl.egretta.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
-import org.springframework.hateoas.Resources
-import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -28,21 +24,16 @@ class UserController {
     @RequestMapping(value = [""], method = [RequestMethod.GET])
     fun getAllBy(userSpec: UserSpec, pageable: Pageable): ResponseEntity<*> {
         val users = userService.findAll(userSpec, pageable)
-        val userResources = users.map { u -> UserResource(u) }.toList()
-
-        val link = ControllerLinkBuilder.linkTo(this::class.java).withSelfRel()
-        val result = Resources<UserResource>(userResources, link)
-        return ResponseEntity(result, HttpStatus.OK)
+        return ResponseEntity(users, HttpStatus.OK)
     }
 
-    @RequestMapping(value = ["/{id}"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/{id}"])
     fun getById(@PathVariable(value = "id") id: Int): ResponseEntity<*> {
         val user = userService.findById(id)
         return if (!user.isPresent) {
             ResponseEntity("user not found", HttpStatus.NOT_FOUND)
         } else {
-            val userResource = UserResource(user.get())
-            ResponseEntity(userResource, HttpStatus.OK)
+            ResponseEntity(user, HttpStatus.OK)
         }
     }
 
@@ -72,11 +63,7 @@ class UserController {
         return if (!user.isPresent) {
             ResponseEntity("user not found", HttpStatus.NOT_FOUND)
         } else {
-            val taskResources = user.get().tasks.map { t -> TaskResource(t) }.toList()
-
-            val link = ControllerLinkBuilder.linkTo(this::class.java).withSelfRel()
-            val result = Resources<TaskResource>(taskResources, link)
-            ResponseEntity(result, HttpStatus.OK)
+            ResponseEntity(user.get().tasks, HttpStatus.OK)
         }
     }
 
