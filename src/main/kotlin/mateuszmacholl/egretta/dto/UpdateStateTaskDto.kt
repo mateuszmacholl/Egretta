@@ -1,6 +1,6 @@
 package mateuszmacholl.egretta.dto
 
-import mateuszmacholl.egretta.utils.TaskState
+import mateuszmacholl.egretta.model.task.TaskState
 import javax.validation.constraints.NotNull
 
 class UpdateStateTaskDto(

@@ -1,6 +1,6 @@
 package mateuszmacholl.egretta.service
 
-import mateuszmacholl.egretta.model.Task
+import mateuszmacholl.egretta.model.task.Task
 import mateuszmacholl.egretta.model.specification.TaskSpec
 import mateuszmacholl.egretta.repo.TaskRepo
 import org.springframework.beans.factory.annotation.Autowired

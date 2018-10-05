@@ -1,6 +1,6 @@
 package mateuszmacholl.egretta.model.specification
 
-import mateuszmacholl.egretta.model.Task
+import mateuszmacholl.egretta.model.task.Task
 import net.kaczmarzyk.spring.data.jpa.domain.Equal
 import net.kaczmarzyk.spring.data.jpa.domain.GreaterThan
 import net.kaczmarzyk.spring.data.jpa.domain.Like

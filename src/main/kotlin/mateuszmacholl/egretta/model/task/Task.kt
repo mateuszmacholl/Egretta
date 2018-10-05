@@ -1,6 +1,8 @@
-package mateuszmacholl.egretta.model
+package mateuszmacholl.egretta.model.task
 
-import mateuszmacholl.egretta.utils.TaskState
+import mateuszmacholl.egretta.model.Subject
+import mateuszmacholl.egretta.model.TaskType
+import mateuszmacholl.egretta.model.User
 import org.springframework.format.annotation.DateTimeFormat
 import java.util.*
 import javax.persistence.*
@@ -23,4 +25,5 @@ data class Task(
         var type: TaskType? = null,
         @Enumerated(EnumType.STRING)
         var state: TaskState = TaskState.UNDONE
+
 )

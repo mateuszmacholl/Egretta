@@ -1,6 +1,6 @@
 package mateuszmacholl.egretta.controller
 
-import mateuszmacholl.egretta.model.Task
+import mateuszmacholl.egretta.model.task.Task
 import mateuszmacholl.egretta.model.User
 import mateuszmacholl.egretta.service.user.UserService
 import org.springframework.beans.factory.annotation.Autowired

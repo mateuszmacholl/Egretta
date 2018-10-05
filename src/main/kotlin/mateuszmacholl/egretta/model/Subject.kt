@@ -1,6 +1,7 @@
 package mateuszmacholl.egretta.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import mateuszmacholl.egretta.model.task.Task
 import javax.persistence.*
 
 @Entity

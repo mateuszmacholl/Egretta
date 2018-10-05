@@ -1,8 +1,8 @@
 package mateuszmacholl.egretta.controller
 
-import mateuszmacholl.egretta.model.Task
+import mateuszmacholl.egretta.model.task.Task
 import mateuszmacholl.egretta.service.TaskService
-import mateuszmacholl.egretta.utils.TaskState
+import mateuszmacholl.egretta.model.task.TaskState
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -62,6 +62,7 @@ class TaskControllerTest extends Specification {
         given:
         def subject = "polski"
         def author = "d_enabled_user"
+        def content = "content"
         def date = '2018-10-01'
         def name = 'sprawdzian z dat'
         def type = 'test'
@@ -70,7 +71,8 @@ class TaskControllerTest extends Specification {
                 author : author,
                 date   : date,
                 name   : name,
-                type: type
+                type   : type,
+                content: content
         ]
         when:
         def response = restTemplate.postForEntity('/tasks', body, String.class)
@@ -84,9 +86,10 @@ class TaskControllerTest extends Specification {
         tasks.stream().filter { t ->
             (
                     t.name == name
-                            && t.date== formatter.parse(date)
+                            && t.date == formatter.parse(date)
                             && t.author.username == author
                             && t.subject.name == subject
+                            && t.content == content
             )
         } != Optional.empty()
     }

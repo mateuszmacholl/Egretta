@@ -2,6 +2,7 @@ package mateuszmacholl.egretta.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import mateuszmacholl.egretta.model.task.Task
 import org.springframework.format.annotation.DateTimeFormat
 import java.util.*
 import javax.persistence.*

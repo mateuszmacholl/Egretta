@@ -1,7 +1,7 @@
 package mateuszmacholl.egretta.converter
 
 import mateuszmacholl.egretta.dto.CreateTaskDto
-import mateuszmacholl.egretta.model.Task
+import mateuszmacholl.egretta.model.task.Task
 import mateuszmacholl.egretta.service.SubjectService
 import mateuszmacholl.egretta.service.TaskTypeService
 import mateuszmacholl.egretta.service.user.UserService
