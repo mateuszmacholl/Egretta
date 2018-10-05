@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Validated
-@RequestMapping(value = ["/users"], produces = ["application/hal+json"])
+@RequestMapping(value = ["/users"])
 class UserController {
     @Autowired
     lateinit var userService: UserService

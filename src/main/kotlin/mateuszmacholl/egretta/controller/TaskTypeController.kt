@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Validated
-@RequestMapping(value = ["/task-types"], produces = ["application/hal+json"])
+@RequestMapping(value = ["/task-types"])
 class TaskTypeController {
     @Autowired
     lateinit var taskTypeService: TaskTypeService
