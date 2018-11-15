@@ -5,15 +5,14 @@ import mateuszmacholl.egretta.model.TaskType
 import org.springframework.stereotype.Service
 
 @Service
-class TaskTypeConverter {
-    fun toEntity(createTaskTypeDto: CreateTaskTypeDto): TaskType {
+class TaskTypeConverter: Converter<CreateTaskTypeDto, TaskType> {
+    override fun convert(from: CreateTaskTypeDto): TaskType {
         return TaskType(
-                null,
-                createTaskTypeDto.name
+                from.name
         )
     }
 
-    fun toEntity(createSubjectDtos: List<CreateTaskTypeDto>): List<TaskType> {
-        return createSubjectDtos.map { t-> toEntity(t) }.toList()
+    override fun convert(from: List<CreateTaskTypeDto>): List<TaskType> {
+        return from.map { t-> convert(t) }.toList()
     }
 }

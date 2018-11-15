@@ -9,8 +9,6 @@ import javax.persistence.*
 
 @Entity
 data class Task(
-        @Id @GeneratedValue
-        val id: Int? = null,
         var name: String?,
         var content: String?,
         @ManyToOne(fetch = FetchType.EAGER)
@@ -25,5 +23,7 @@ data class Task(
         var type: TaskType? = null,
         @Enumerated(EnumType.STRING)
         var state: TaskState = TaskState.UNDONE
-
-)
+){
+        @Id @GeneratedValue
+        val id: Int? = null
+}

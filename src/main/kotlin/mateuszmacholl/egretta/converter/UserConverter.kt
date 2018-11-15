@@ -5,17 +5,16 @@ import mateuszmacholl.egretta.model.User
 import org.springframework.stereotype.Service
 
 @Service
-class UserConverter {
-    fun toEntity(createUserDto: CreateUserDto): User {
+class UserConverter: Converter<CreateUserDto, User> {
+    override fun convert(from: CreateUserDto): User {
         return User(
-                null,
-                createUserDto.username,
-                createUserDto.email,
-                createUserDto.password
+                from.username,
+                from.email,
+                from.password
         )
     }
 
-    fun toEntity(createUserDtos: List<CreateUserDto>): List<User> {
-        return createUserDtos.map { t-> toEntity(t) }.toList()
+    override fun convert(from: List<CreateUserDto>): List<User> {
+        return from.map { t-> convert(t) }.toList()
     }
 }

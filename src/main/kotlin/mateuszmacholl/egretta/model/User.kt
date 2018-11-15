@@ -9,10 +9,6 @@ import javax.persistence.*
 
 @Entity
 data class User(
-    @Id
-    @GeneratedValue
-    var id: Int? = null,
-
     var username: String? = null,
 
     var email: String? = null,
@@ -32,6 +28,10 @@ data class User(
     @OneToMany(mappedBy = "author", targetEntity = Task::class,  cascade = [CascadeType.ALL])
     var tasks: MutableList<Task> = mutableListOf()
 ){
+    @Id
+    @GeneratedValue
+    var id: Int? = null
+
     init {
         roles.add("user")
         enabled = true

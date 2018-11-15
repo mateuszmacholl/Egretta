@@ -1,5 +1,6 @@
 package mateuszmacholl.egretta.controller
 
+import mateuszmacholl.egretta.converter.ConverterContext
 import mateuszmacholl.egretta.converter.UserConverter
 import mateuszmacholl.egretta.dto.CreateUserDto
 import mateuszmacholl.egretta.model.specification.UserSpec
@@ -18,7 +19,7 @@ class UserController {
     @Autowired
     lateinit var userService: UserService
     @Autowired
-    lateinit var userConverter: UserConverter
+    lateinit var converterContext: ConverterContext
 
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
@@ -40,7 +41,7 @@ class UserController {
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun add(@RequestBody @Validated createUserDto: CreateUserDto): ResponseEntity<*> {
 
-        val user = userConverter.toEntity(createUserDto)
+        val user = converterContext.get(UserConverter::class.java).convert(createUserDto)
         userService.add(user)
 
         return ResponseEntity<Any>(HttpStatus.CREATED)

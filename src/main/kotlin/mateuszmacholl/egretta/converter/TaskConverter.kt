@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class TaskConverter {
+class TaskConverter : Converter<CreateTaskDto, Task> {
     @Autowired
     lateinit var userService: UserService
     @Autowired
@@ -17,26 +17,25 @@ class TaskConverter {
     @Autowired
     lateinit var taskTypeService: TaskTypeService
 
-    fun toEntity(createTaskDto: CreateTaskDto): Task {
-        val author = userService.findByUsername(createTaskDto.author!!)
-        val subject = subjectService.findByName(createTaskDto.subject!!)
-        val type = taskTypeService.findByName(createTaskDto.type!!)
+    override fun convert(from: CreateTaskDto): Task {
+        val author = userService.findByUsername(from.author!!)
+        val subject = subjectService.findByName(from.subject!!)
+        val type = taskTypeService.findByName(from.type!!)
         if (author == null || subject == null || type == null) {
             throw IllegalArgumentException()
         }
         return Task(
-                null,
-                createTaskDto.name,
-                createTaskDto.content,
+                from.name,
+                from.content,
                 author,
                 subject,
-                createTaskDto.date,
+                from.date,
                 type
 
         )
     }
 
-    fun toEntity(createProductDtos: List<CreateTaskDto>): List<Task> {
-        return createProductDtos.map { p -> toEntity(p) }.toList()
+    override fun convert(from: List<CreateTaskDto>): List<Task> {
+        return from.map { p -> convert(p) }.toList()
     }
 }

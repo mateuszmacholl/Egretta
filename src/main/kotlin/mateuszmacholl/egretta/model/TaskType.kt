@@ -6,10 +6,11 @@ import javax.persistence.*
 
 @Entity
 data class TaskType(
-        @Id @GeneratedValue
-        val id: Int?,
         val name: String?,
         @OneToMany(mappedBy = "type", targetEntity = Task::class, cascade = [CascadeType.ALL])
         @JsonIgnore
         val tasks: List<Task> = mutableListOf()
-)
+){
+        @Id @GeneratedValue
+        var id: Int? = null
+}

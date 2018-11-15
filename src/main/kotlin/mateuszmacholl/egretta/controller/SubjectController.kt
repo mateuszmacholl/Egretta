@@ -1,5 +1,6 @@
 package mateuszmacholl.egretta.controller
 
+import mateuszmacholl.egretta.converter.ConverterContext
 import mateuszmacholl.egretta.converter.SubjectConverter
 import mateuszmacholl.egretta.dto.CreateSubjectDto
 import mateuszmacholl.egretta.model.specification.SubjectSpec
@@ -18,7 +19,7 @@ class SubjectController {
     @Autowired
     lateinit var subjectService: SubjectService
     @Autowired
-    lateinit var subjectConverter: SubjectConverter
+    lateinit var converterContext: ConverterContext
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
     fun getAll(subjectSpec: SubjectSpec, pageable: Pageable): ResponseEntity<*> {
@@ -38,7 +39,7 @@ class SubjectController {
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun add(@RequestBody @Validated createSubjectDto: CreateSubjectDto): ResponseEntity<*> {
-        val subject = subjectConverter.toEntity(createSubjectDto)
+        val subject = converterContext.get(SubjectConverter::class.java).convert(createSubjectDto)
         subjectService.add(subject)
         return ResponseEntity<Any>(HttpStatus.CREATED)
     }

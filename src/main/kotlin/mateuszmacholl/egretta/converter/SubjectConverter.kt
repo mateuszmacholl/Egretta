@@ -5,15 +5,14 @@ import mateuszmacholl.egretta.model.Subject
 import org.springframework.stereotype.Service
 
 @Service
-class SubjectConverter {
-    fun toEntity(createSubjectDto: CreateSubjectDto): Subject {
+class SubjectConverter: Converter<CreateSubjectDto, Subject> {
+    override fun convert(from: CreateSubjectDto): Subject {
         return Subject(
-                null,
-                createSubjectDto.name
+                from.name
         )
     }
 
-    fun toEntity(createSubjectDtos: List<CreateSubjectDto>): List<Subject> {
-        return createSubjectDtos.map { s -> toEntity(s) }.toList()
+    override fun convert(from: List<CreateSubjectDto>): List<Subject> {
+        return from.map { s -> convert(s) }.toList()
     }
 }

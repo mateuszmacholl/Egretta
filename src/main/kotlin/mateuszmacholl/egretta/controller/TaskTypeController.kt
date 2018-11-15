@@ -1,5 +1,6 @@
 package mateuszmacholl.egretta.controller
 
+import mateuszmacholl.egretta.converter.ConverterContext
 import mateuszmacholl.egretta.converter.TaskTypeConverter
 import mateuszmacholl.egretta.dto.CreateTaskTypeDto
 import mateuszmacholl.egretta.model.specification.TaskTypeSpec
@@ -18,7 +19,7 @@ class TaskTypeController {
     @Autowired
     lateinit var taskTypeService: TaskTypeService
     @Autowired
-    lateinit var taskTypeConverter: TaskTypeConverter
+    lateinit var converterContext: ConverterContext
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
     fun getAll(taskTypeSpec: TaskTypeSpec, pageable: Pageable): ResponseEntity<*> {
@@ -38,7 +39,7 @@ class TaskTypeController {
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun add(@RequestBody @Validated createTaskTypeDto: CreateTaskTypeDto): ResponseEntity<*> {
-        val taskType = taskTypeConverter.toEntity(createTaskTypeDto)
+        val taskType = converterContext.get(TaskTypeConverter::class.java).convert(createTaskTypeDto)
         taskTypeService.add(taskType)
         return ResponseEntity<Any>(HttpStatus.CREATED)
     }
