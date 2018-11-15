@@ -1,5 +1,7 @@
 package mateuszmacholl.egretta.utils
 
+import org.springframework.beans.factory.annotation.Autowired
+
 // I have no idea in which package it should be
 abstract class FactoryContext<type> {
     protected var list: MutableList<type> = mutableListOf()
@@ -10,5 +12,8 @@ abstract class FactoryContext<type> {
         return goal as conversionGoal
     }
 
-    abstract fun set(list: MutableList<type>)
+    @Autowired
+    fun set(list: MutableList<type>){
+        this.list = list
+    }
 }

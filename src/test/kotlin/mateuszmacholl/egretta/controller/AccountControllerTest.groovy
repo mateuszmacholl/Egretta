@@ -8,10 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
-import org.springframework.test.annotation.DirtiesContext
 import spock.lang.Specification
 
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = AutoConfigureTestDatabase.Replace.ANY)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AccountControllerTest extends Specification {
@@ -51,8 +49,8 @@ class AccountControllerTest extends Specification {
 
     def "login successful"() {
         given:
-        def username = 'd_enabled_user'
-        def password = 'root'
+        def username = 'username'
+        def password = 'password'
         Map body = [
                 username: username,
                 password: password
